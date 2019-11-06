@@ -1,0 +1,23 @@
+Build.PL
+Changes
+cpanfile
+ext/math_int64_c_api_client_054/perl_math_int64.c
+ext/math_int64_c_api_client_054/perl_math_int64.h
+ext/xxHash_072/LICENSE
+ext/xxHash_072/README.md
+ext/xxHash_072/xxh3.h
+ext/xxHash_072/xxhash.c
+ext/xxHash_072/xxhash.h
+lib/Digest/xxHash64.pm
+LICENSE
+MANIFEST			This list of files
+META.json
+META.yml
+ppport.h
+README
+README.pod
+INSTALL
+t/xxtest.t
+TODO
+typemap
+xxHash64.xs

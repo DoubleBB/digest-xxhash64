@@ -1,0 +1,14 @@
+XXH64_state_t  *  T_PTROBJ
+
+Digest::xxHash64   T_PTROBJ
+
+uint64_t        T_UINT64
+
+INPUT
+T_UINT64
+        $var = SvU64($arg);
+
+OUTPUT
+T_UINT64
+        $arg = newSVu64($var);
+

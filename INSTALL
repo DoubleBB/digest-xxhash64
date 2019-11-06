@@ -1,0 +1,22 @@
+       Installation instructions for Digest::xxHash64
+
+To install this module, just do:
+
+  perl Build.PL
+  ./Build
+  ./Build test
+  ./Build install  (this step may need to be done as the superuser)
+
+Or, if you're on a platform (like DOS or Windows) that doesn't require
+the "./" notation, you can do this:
+
+  perl Build.PL
+  Build
+  Build test
+  Build install
+
+In crtain verions of Windows, to execute successfully these commands
+in command window, you may need to open the CMD window as Administrator.
+
+The important thing is that the "Build" script gets executed and that
+you pass it the "test", "install", etc. arguments.
