@@ -6,7 +6,7 @@ my $build = Module::Build->new(
     module_name         => 'Digest::xxHash64',
     license             => 'perl',
     dist_author         => 'Bela Bodecs <bodecsb@vivanet.hu>',
-    dist_description    => 'Perl object oriented interface implementation to xxHash 64 bit algorithm',
+    dist_description    => 'Perl interface implementation to xxHash 64 bit algorithm',
 
     create_readme       => 1,
     configure_requires  => {
@@ -17,7 +17,9 @@ my $build = Module::Build->new(
                             'Test::More' => 0
     },
     requires            => {
+                             'perl' => '5.8.9',
                              'XSLoader' => 0,
+                             'Exporter' => 0,
                              'Math::Int64' => '0.54' # for 32bit perl without native int64 support
     },
     test_requires       => {

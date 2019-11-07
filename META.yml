@@ -1,5 +1,5 @@
 ---
-abstract: 'Perl object oriented interface implementation to xxHash 64 bit algorithm'
+abstract: 'Perl interface implementation to xxHash 64 bit algorithm'
 author:
   - 'Bela Bodecs <bodecsb@vivanet.hu>'
 build_requires:
@@ -17,13 +17,15 @@ name: Digest-xxHash64
 provides:
   Digest::xxHash64:
     file: lib/Digest/xxHash64.pm
-    version: '1.01'
+    version: '1.02'
 requires:
+  Exporter: '0'
   Math::Int64: '0.54'
   XSLoader: '0'
+  perl: v5.8.9
 resources:
   bugtracker: https://github.com/DoubleBB/digest-xxhash64/issues
   license: http://dev.perl.org/licenses/
   repository: https://github.com/DoubleBB/digest-xxhash64
-version: '1.01'
+version: '1.02'
 x_serialization_backend: 'CPAN::Meta::YAML version 0.018'

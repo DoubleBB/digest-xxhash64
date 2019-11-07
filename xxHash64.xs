@@ -73,6 +73,9 @@ new (char * class, ...)
     PREINIT:
         uint64_t seed64_value = 0;
     CODE:
+        if (items > 2) {
+          croak("Too many arguments");
+        }
         RETVAL = XXH64_createState( );
         if (! RETVAL) {
           croak("No memory for %s", class);
@@ -117,6 +120,9 @@ reset ( Digest::xxHash64 xx, ... )
     PREINIT:
         uint64_t seed64_value = 0;
     CODE:
+        if (items > 2) {
+          croak("Too many arguments");
+        }
         if (SvOK(ST(1)) && SvIOK(ST(1)))
           seed64_value = SvU64(ST(1));
         if (XXH64_reset(xx, seed64_value) == XXH_ERROR) {
@@ -198,6 +204,9 @@ addfile(Digest::xxHash64 xx, PerlIO * fh, ...)
 #endif
         int  n;
     CODE:
+        if (items > 3) {
+          croak("Too many arguments");
+        }
         /* 3rd optional parameter */
         if (SvOK(ST(2)) && SvIOK(ST(2)))
           max_read = SvU64(ST(2));
@@ -237,3 +246,76 @@ addfile(Digest::xxHash64 xx, PerlIO * fh, ...)
         RETVAL
 
 
+
+uint64_t
+xxHash64 ( ... )
+    PREINIT:
+        STRLEN len = 0;
+        const char *ptr;
+        uint64_t seed64_value = 0;
+    CODE:
+        if (items > 2) {
+          croak("Too many arguments");
+        }
+        if (items == 0) {
+          croak("Too few arguments");
+        }
+
+        if (!SvOK(ST(0))) {
+          croak("requires at least one valid argument");
+        }
+
+        if (SvOK(ST(1)) && SvIOK(ST(1)))
+          seed64_value = SvU64(ST(1));
+
+
+        ptr = SvPV(ST(0), len);
+        if (len == 0) {
+          croak("Data argument is zero length");
+        }
+
+        RETVAL = XXH64(ptr, len, seed64_value);
+    OUTPUT:
+        RETVAL
+
+
+void
+xxHash64hex ( ... )
+    PREINIT:
+        char str_hash[17]; /* 16 hexa characters + terminating zero */
+        const char digits[16] = "0123456789ABCDEF";
+        int i;
+        STRLEN len = 0;
+        const char *ptr;
+        uint64_t seed64_value = 0;
+        XXH64_hash_t hash64;
+
+    PPCODE:
+        if (items > 2) {
+          croak("Too many arguments");
+        }
+        if (items == 0) {
+          croak("Too few arguments");
+        }
+
+        if (!SvOK(ST(0))) {
+          croak("requires at least one valid argument");
+        }
+
+        if (SvOK(ST(1)) && SvIOK(ST(1)))
+          seed64_value = SvU64(ST(1));
+
+
+        ptr = SvPV(ST(0), len);
+        if (len == 0) {
+          croak("Data argument is zero length");
+        }
+
+        hash64 = XXH64(ptr, len, seed64_value);
+
+        /* sprintf for 64 bit numbers is not available on all platform */
+        for(i=0; i<16; i++)
+          str_hash[15 - i] = digits[(hash64 >> (i*4)) & 15];
+
+        str_hash[16] = 0;
+        XPUSHs(sv_2mortal(newSVpv(str_hash, 0)));
