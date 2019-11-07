@@ -190,6 +190,21 @@ hexdigest (Digest::xxHash64 xx)
     XPUSHs(sv_2mortal(newSVpv(str_hash, 0)));
 
 
+void
+bindigest (Digest::xxHash64 xx)
+  PREINIT:
+    char str_hash[9]; /* 8 bytes + terminating zero */
+    int i;
+    XXH64_hash_t hash64;
+  PPCODE:
+    hash64 = XXH64_digest(xx);
+
+    for(i=0; i<8; i++)
+      str_hash[7 - i] = (hash64 >> (i*8)) & 255;
+
+    str_hash[8] = 0;
+    XPUSHs(sv_2mortal(newSVpv(str_hash, 0)));
+
 
 uint64_t
 addfile(Digest::xxHash64 xx, PerlIO * fh, ...)
@@ -324,4 +339,48 @@ get_xxHash64hex ( ... )
           str_hash[15 - i] = digits[(hash64 >> (i*4)) & 15];
 
         str_hash[16] = 0;
+        XPUSHs(sv_2mortal(newSVpv(str_hash, 0)));
+
+
+
+void
+get_xxHash64bin ( ... )
+    ALIAS:
+        xx64bin = 1
+        xxHash64bin = 2
+    PREINIT:
+        char str_hash[9]; /* 8 bytes + terminating zero */
+        int i;
+        STRLEN len = 0;
+        const char *ptr;
+        uint64_t seed64_value = 0;
+        XXH64_hash_t hash64;
+
+    PPCODE:
+        if (items > 2) {
+          croak("Too many arguments");
+        }
+        if (items == 0) {
+          croak("Too few arguments");
+        }
+
+        if (!SvOK(ST(0))) {
+          croak("requires at least one valid argument");
+        }
+
+        if (SvOK(ST(1)) && SvIOK(ST(1)))
+          seed64_value = SvU64(ST(1));
+
+
+        ptr = SvPV(ST(0), len);
+        if (len == 0) {
+          croak("Data argument is zero length");
+        }
+
+        hash64 = XXH64(ptr, len, seed64_value);
+
+        for(i=0; i<8; i++)
+          str_hash[7 - i] = (hash64 >> (i*8)) & 255;
+
+        str_hash[8] = 0;
         XPUSHs(sv_2mortal(newSVpv(str_hash, 0)));

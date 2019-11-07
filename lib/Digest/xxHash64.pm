@@ -9,11 +9,11 @@ our @ISA = qw(Exporter);
 use vars qw($VERSION);
 
 BEGIN {
-    $VERSION = 1.02;
+    $VERSION = 1.03;
     XSLoader::load(__PACKAGE__, $VERSION);
 }
 
-our @EXPORT_OK = qw(xxHash64 xxHash64hex xx64 xx64hex);
+our @EXPORT_OK = qw(xxHash64 xxHash64hex xxHash64bin xx64 xx64hex xx64bin);
 
 1;
 __END__
@@ -37,11 +37,13 @@ Digest::xxHash64 - Perl interface implementation to xxHash 64 bit algorithm
 
     my $hash64 = $xx->digest();
     my $hash64_hex = $xx->hexdigest();
+    my $hash64_bin = $xx->bindigest();
 
     $xx->reset($seed);
     $xx->add($data5);
     my $another_hash64 = $xx->digest();
     my $another_hash64_hex = $xx->hexdigest();
+    my $another_hash64_bin = $xx->bindigest();
 
 
 
@@ -51,13 +53,15 @@ Digest::xxHash64 - Perl interface implementation to xxHash 64 bit algorithm
 
     my $hash64 = xxHash64($data);
     my $hash64_hex = xxHash64hex($data);
+    my $hash64_bin = xxHash64bin($data);
 
     my $hash64 = xx64($data);
     my $hash64_hex = xx64hex($data);
+    my $hash64_bin = xx64bin($data);
 
     my $hash64 = xxHash64($data, $seed);
     my $hash64_hex = xxHash64hex($data, $seed);
-
+    my $hash64_bin = xxHash64bin($data, $seed);
 
 
 =head1 DESCRIPTION
@@ -160,7 +164,7 @@ binmode before you pass it as argument to the C<addfile()> method.
 
 =item $xx->digest
 
-Return the binary digest for the previously added data. The returned number is a 64 bit unsigned integer.
+Return the 64 bit binary digest for the previously added data. The returned number is a 64 bit unsigned integer.
 It is useful when to store the digest into database field directly as a number.
 Under 32 bit Perl environment you have to use Math::Int64 module to handle this type of numbers.
 
@@ -173,9 +177,17 @@ digest without resetting the digest state.
 
 =item $xx->hexdigest
 
-Same as $xx->digest, but will return the digest in hexadecimal
-form. The length of the returned string will be 16 and it will only
+Same as $xx->digest, but will return the 64 bit digest in hexadecimal
+form. The length of the returned string will be 16 characters and it will only
 contain characters from this set: '0'..'9' and 'A'..'F'.
+
+
+=item $xx->bindigest
+
+Same as $xx->digest, but will return the 64 bit digest as 8 bytes length string in Big Endian
+order. In the output string, the first byte/character contains
+the most significant 8 bits  and the last byte/character contains the least significant 8 bits.
+
 
 =back
 
@@ -213,6 +225,19 @@ characters from this set: '0'..'9' and 'A'..'F'.
 =item xx64hex($data, [$seed])
 
 A shorter alias name for xxHash64hex function.
+
+
+=item xxHash64bin($data, [$seed])
+
+Same as xxHash64() function, but will return the 64 bit digest
+as 8 bytes length string in Big Endian order. In the output string, the first byte/character contains
+the most significant 8 bits  and the last byte/character contains the least significant 8 bits.
+
+
+=item xx64bin($data, [$seed])
+
+A shorter alias name for xxHash64bin function.
+
 
 
 =back

@@ -37,7 +37,7 @@
    "provides" : {
       "Digest::xxHash64" : {
          "file" : "lib/Digest/xxHash64.pm",
-         "version" : "1.02"
+         "version" : "1.03"
       }
    },
    "release_status" : "stable",
@@ -52,6 +52,6 @@
          "url" : "https://github.com/DoubleBB/digest-xxhash64"
       }
    },
-   "version" : "1.02",
+   "version" : "1.03",
    "x_serialization_backend" : "JSON::PP version 2.27400_02"
 }

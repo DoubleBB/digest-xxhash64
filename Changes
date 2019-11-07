@@ -6,3 +6,6 @@ Changes
 
 1.02 - 07 November 2019
   * Functional interface added.
+
+1.03 - 07 November 2019
+  * bin output functions/method added.
