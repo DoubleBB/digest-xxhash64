@@ -248,7 +248,10 @@ addfile(Digest::xxHash64 xx, PerlIO * fh, ...)
 
 
 uint64_t
-xxHash64 ( ... )
+get_xxHash64 ( ... )
+    ALIAS:
+        xx64 = 1
+        xxHash64 = 2
     PREINIT:
         STRLEN len = 0;
         const char *ptr;
@@ -280,7 +283,10 @@ xxHash64 ( ... )
 
 
 void
-xxHash64hex ( ... )
+get_xxHash64hex ( ... )
+    ALIAS:
+        xx64hex = 1
+        xxHash64hex = 2
     PREINIT:
         char str_hash[17]; /* 16 hexa characters + terminating zero */
         const char digits[16] = "0123456789ABCDEF";

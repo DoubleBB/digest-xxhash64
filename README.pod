@@ -27,10 +27,13 @@ Digest::xxHash64 - Perl interface implementation to xxHash 64 bit algorithm
 
     # Functional style interface
 
-    use Digest::xxHash64 qw[ xxHash64  xxHash64hex ];
+    use Digest::xxHash64 qw( xxHash64  xxHash64hex  xx64  xx64hex );
 
     my $hash64 = xxHash64($data);
     my $hash64_hex = xxHash64hex($data);
+
+    my $hash64 = xx64($data);
+    my $hash64_hex = xx64hex($data);
 
     my $hash64 = xxHash64($data, $seed);
     my $hash64_hex = xxHash64hex($data, $seed);
@@ -175,11 +178,21 @@ max 64 bit integer. Seed can be used to alter the result predictably.
 If omitted zero is assumed.
 
 
+=item xx64($data, [$seed])
+
+A shorter alias name for xxHash64 function.
+
+
 =item xxHash64hex($data, [$seed])
 
 Same as xxHash64() function, but will return the digest in hexadecimal form. The
 length of the returned string will be 16 and it will only contain
 characters from this set: '0'..'9' and 'A'..'F'.
+
+
+=item xx64hex($data, [$seed])
+
+A shorter alias name for xxHash64hex function.
 
 
 =back
@@ -283,12 +296,20 @@ Note: unspecified seed value means to use 0 as seed value.
 
 To calculate digest of a string in functional style:
 
-This example calculates the digest and display it in hexadecimal form:
+This example calculates the digest and displays it in hexadecimal form:
 
     use Digest::xxHash64 qw( xxHash64hex );
 
     my $data_string = "Hello world!";
     my $hash64_hex = xxHash64hex($data_string);
+    print ("The digest value is ", $hash64_hex, "\n");
+
+If you prefer to type less use xx64hex function name isntead of xxHash64hex:
+
+    use Digest::xxHash64 qw( xx64hex );
+
+    my $data_string = "Hello world!";
+    my $hash64_hex = xx64hex($data_string);
     print ("The digest value is ", $hash64_hex, "\n");
 
 

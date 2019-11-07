@@ -3,14 +3,20 @@ use strict;
 use warnings;
 use Test::More;
 use Math::Int64;
-use Digest::xxHash64  1.02 qw( xxHash64 xxHash64hex );
+use Digest::xxHash64  1.02 qw( xxHash64 xxHash64hex xx64 xx64hex );
 
 # testing functional interface
 is xxHash64hex("abc"), '44BC2CF5AD770999', 'Check hexa digest output';
 is xxHash64hex("abc", 0), '44BC2CF5AD770999', 'Check hexa digest output';
 
+is xx64hex("abc"), '44BC2CF5AD770999', 'Check hexa digest output';
+is xx64hex("abc", 0), '44BC2CF5AD770999', 'Check hexa digest output';
+
 is xxHash64("abc"), Math::Int64::hex_to_uint64("0x44BC2CF5AD770999"), 'Check nativ digest output';
 is xxHash64("abc", 0), Math::Int64::hex_to_uint64("0x44BC2CF5AD770999"), 'Check nativ digest output';
+
+is xx64("abc"), Math::Int64::hex_to_uint64("0x44BC2CF5AD770999"), 'Check nativ digest output';
+is xx64("abc", 0), Math::Int64::hex_to_uint64("0x44BC2CF5AD770999"), 'Check nativ digest output';
 
 # testing OO interface
 my $xx = new_ok( 'Digest::xxHash64' );
