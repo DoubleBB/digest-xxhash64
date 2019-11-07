@@ -56,7 +56,7 @@ OBJECT ORIENTED STYLE INTERFACE
 
     The following methods are provided:
 
-    $xx = Digest::xxHash64->new([$seed])
+    $xx = Digest::xxHash64->new( [$seed] )
 
       The constructor returns a new Digest::xxHash64 object which
       encapsulate the state of the xxHash 64 bit digest algorithm.
@@ -68,7 +68,7 @@ OBJECT ORIENTED STYLE INTERFACE
       algorithm and being a max 64 bit integer. Seed can be used to alter
       the result predictably. If omitted zero is assumed.
 
-    $xx->reset([$seed])
+    $xx->reset( [$seed] )
 
       Resets object's internal state.
 
@@ -93,7 +93,7 @@ OBJECT ORIENTED STYLE INTERFACE
             print "hash so far: $.: ", $xx->clone->hash_hex, "\n";
           }
 
-    $xx->add($data,...)
+    $xx->add($data, ...)
 
       The $data provided as argument are appended to the byte sequence we
       calculate the digest for. The return value is the number of bytes
@@ -229,7 +229,7 @@ EXAMPLES
         close($FH);
         print $xx->hexdigest, '  ', $filename, "\n";
 
-    Calculating digest for two different string:
+    Calculating digests for two different strings:
 
         use Digest::xxHash64;
     
@@ -243,7 +243,7 @@ EXAMPLES
         $xx->add($string2);
         print $xx->hexdigest, ' for ', $tring2, "\n";
 
-    xxHash algorithm accept a seed value to set initial state of digest
+    xxHash algorithm accepts a seed value to set initial state of digest
     calculation. This makes possible to produce uniquely different digest
     in a predictive way. So, new and reset method accepts an optional
     argument representing the seed value. The argument must be between 0
@@ -266,6 +266,30 @@ EXAMPLES
     
         $xx->add($string1);
         print $xx->hexdigest, ' for ', $tring1, "\n";
+
+    To calculate digest of a string in functional style:
+
+    This example calculates the digest and display it in hexadecimal form:
+
+        use Digest::xxHash64 qw( xxHash64hex );
+    
+        my $data_string = "Hello world!";
+        my $hash64_hex = xxHash64hex($data_string);
+        print ("The digest value is ", $hash64_hex, "\n");
+
+    xxHash algorithm accepts a seed value to set initial state of digest
+    calculation. This makes possible to produce uniquely different digest
+    in a predictive way. In previously example we did not specify seed
+    value for xxHash64hex funcion. It means, 0 as default value was used as
+    seed value. In the following exampe we specify a seed value, so the
+    calculated digest value will be different than in previous example:
+
+        use Digest::xxHash64 qw( xxHash64hex );
+    
+        my $seed = 123456789;
+        my $data_string = "Hello world!";
+        my $hash64_hex = xxHash64hex($data_string, $seed);
+        print ("The new digest value is ", $hash64_hex, "\n");
 
 COPYRIGHT
 
