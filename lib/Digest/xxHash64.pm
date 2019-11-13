@@ -1,7 +1,7 @@
 package Digest::xxHash64;
 use strict;
 use Math::Int64;
-require XSLoader;
+use XSLoader;
 
 require Exporter;
 our @ISA = qw(Exporter);
