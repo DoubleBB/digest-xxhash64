@@ -140,19 +140,23 @@ add ( Digest::xxHash64 xx, ... )
         STRLEN len = 0;
         const char *ptr;
         unsigned int i;
+        U32 had_utf8;
     CODE:
         if (items > 1) {
           for (i = 1; i < items; i++) {
             if (!SvOK(ST(i))) {
               croak("One of the arguments (#%u) is not defined", i);
             }
-            ptr = SvPV(ST(i), len);
+            had_utf8 = SvUTF8(ST(i));
+            ptr = SvPVbyte(ST(i), len);
             if (len == 0) {
               croak("One of the arguments (#%u) is zero length", i);
             }
             if (XXH64_update(xx, ptr, len) == XXH_ERROR) {
               croak("Could not update xxHash state with argument #%u", i);
             }
+            if (had_utf8)
+               sv_utf8_upgrade(ST(i));
           }
         }
         else {
@@ -267,10 +271,13 @@ get_xxHash64 ( ... )
     ALIAS:
         xx64 = 1
         xxHash64 = 2
+
     PREINIT:
         STRLEN len = 0;
         const char *ptr;
         uint64_t seed64_value = 0;
+        U32 had_utf8;
+
     CODE:
         if (items > 2) {
           croak("Too many arguments");
@@ -280,19 +287,21 @@ get_xxHash64 ( ... )
         }
 
         if (!SvOK(ST(0))) {
-          croak("requires at least one valid argument");
+          croak("Requires a valid argument");
         }
 
         if (SvOK(ST(1)) && SvIOK(ST(1)))
           seed64_value = SvU64(ST(1));
 
-
-        ptr = SvPV(ST(0), len);
+        had_utf8 = SvUTF8(ST(0));
+        ptr = SvPVbyte(ST(0), len);
         if (len == 0) {
           croak("Data argument is zero length");
         }
 
         RETVAL = XXH64(ptr, len, seed64_value);
+        if (had_utf8)
+           sv_utf8_upgrade(ST(0));
     OUTPUT:
         RETVAL
 
@@ -302,6 +311,7 @@ get_xxHash64hex ( ... )
     ALIAS:
         xx64hex = 1
         xxHash64hex = 2
+
     PREINIT:
         char str_hash[17]; /* 16 hexa characters + terminating zero */
         const char digits[16] = "0123456789ABCDEF";
@@ -310,6 +320,7 @@ get_xxHash64hex ( ... )
         const char *ptr;
         uint64_t seed64_value = 0;
         XXH64_hash_t hash64;
+        U32 had_utf8;
 
     PPCODE:
         if (items > 2) {
@@ -327,12 +338,15 @@ get_xxHash64hex ( ... )
           seed64_value = SvU64(ST(1));
 
 
-        ptr = SvPV(ST(0), len);
+        had_utf8 = SvUTF8(ST(0));
+        ptr = SvPVbyte(ST(0), len);
         if (len == 0) {
           croak("Data argument is zero length");
         }
 
         hash64 = XXH64(ptr, len, seed64_value);
+        if (had_utf8)
+           sv_utf8_upgrade(ST(0));
 
         /* sprintf for 64 bit numbers is not available on all platform */
         for(i=0; i<16; i++)
@@ -348,6 +362,7 @@ get_xxHash64bin ( ... )
     ALIAS:
         xx64bin = 1
         xxHash64bin = 2
+
     PREINIT:
         char str_hash[9]; /* 8 bytes + terminating zero */
         int i;
@@ -355,6 +370,7 @@ get_xxHash64bin ( ... )
         const char *ptr;
         uint64_t seed64_value = 0;
         XXH64_hash_t hash64;
+        U32 had_utf8;
 
     PPCODE:
         if (items > 2) {
@@ -372,12 +388,16 @@ get_xxHash64bin ( ... )
           seed64_value = SvU64(ST(1));
 
 
-        ptr = SvPV(ST(0), len);
+        had_utf8 = SvUTF8(ST(0));
+        ptr = SvPVbyte(ST(0), len);
+
         if (len == 0) {
           croak("Data argument is zero length");
         }
 
         hash64 = XXH64(ptr, len, seed64_value);
+        if (had_utf8)
+           sv_utf8_upgrade(ST(0));
 
         for(i=0; i<8; i++)
           str_hash[7 - i] = (hash64 >> (i*8)) & 255;
