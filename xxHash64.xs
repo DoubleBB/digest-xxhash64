@@ -20,7 +20,7 @@
 #define PERLIO_NOT_STDIO 0    /* For co-existence with stdio only */
 #include <perlio.h>           /* Usually via #include <perl.h> */
 
-#define READ_BUFFER_SIZE 4096
+#define READ_BUFFER_SIZE 65536
 
 #define  bbMIN2(a, b)   ((a) < (b) ? (a) : (b))
 
