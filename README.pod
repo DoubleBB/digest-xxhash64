@@ -1,14 +1,14 @@
 =head1 NAME
 
-Digest::xxHash64 - Perl interface implementation to xxHash 64 bit algorithm
+Digest::xxH64 - Perl interface implementation to xxHash 64 bit algorithm
 
 =head1 SYNOPSIS
 
     # Object oriented style interface
 
-    use Digest::xxHash64;
+    use Digest::xxH64;
 
-    my $xx = Digest::xxHash64->new;
+    my $xx = Digest::xxH64->new;
 
     $xx->add($data1, $data2, $data3);
     $xx->add($data4);
@@ -29,7 +29,7 @@ Digest::xxHash64 - Perl interface implementation to xxHash 64 bit algorithm
 
     # Functional style interface
 
-    use Digest::xxHash64 qw( xxHash64  xxHash64hex  xx64  xx64hex );
+    use Digest::xxH64 qw( xxHash64 xxHash64hex xxHash64bin xx64 xx64hex xx64bin xxH64 xxH64hex xxH64bin );
 
     my $hash64 = xxHash64($data);
     my $hash64_hex = xxHash64hex($data);
@@ -58,7 +58,7 @@ capable to run both on 32 bit and 64 bit Perl environment.
 
 
 The object oriented interface of C<Digest::xxHash64> is described in this
-section.  After a C<Digest::xxHash64> object has been created, you will add
+section.  After a C<Digest::xxH64> object has been created, you will add
 data to it (once or several times) and finally ask for the digest in a suitable format.
 A single object can be used to calculate multiple digests.
 Error handling is provided by croak() in all method.
@@ -69,7 +69,7 @@ The following methods are provided:
 =over 4
 
 
-=item $xx = Digest::xxHash64->new( [$seed] )
+=item $xx = Digest::xxH64->new( [$seed] )
 
 The constructor returns a new C<Digest::xxHash64> object which encapsulate
 the state of the xxHash 64 bit digest algorithm.
@@ -99,7 +99,7 @@ but need an intermediate value of the
 digest, e.g. when calculating digests iteractively on a continuous data
 stream.  Example:
 
-    my $xx = Digest::xxHas64->new;
+    my $xx = Digest::xxH64->new;
     open($FH, '<', 'myfile.bin');
     binmode($FH);
     while (read($FH, $buffer, 4096)) {
@@ -190,6 +190,11 @@ max 64 bit integer. Seed can be used to alter the result predictably.
 If omitted zero is assumed.
 
 
+=item xxH64($data, [$seed])
+
+A shorter alias name for xxHash64 function.
+
+
 =item xx64($data, [$seed])
 
 A shorter alias name for xxHash64 function.
@@ -200,6 +205,11 @@ A shorter alias name for xxHash64 function.
 Same as xxHash64() function, but will return the digest in hexadecimal form. The
 length of the returned string will be 16 and it will only contain
 characters from this set: '0'..'9' and 'A'..'F'.
+
+
+=item xxH64hex($data, [$seed])
+
+A shorter alias name for xxHash64hex function.
 
 
 =item xx64hex($data, [$seed])
@@ -214,10 +224,14 @@ as 8 bytes length string in Big Endian order. In the output string, the first by
 the most significant 8 bits  and the last byte/character contains the least significant 8 bits.
 
 
-=item xx64bin($data, [$seed])
+=item xxH64bin($data, [$seed])
 
 A shorter alias name for xxHash64bin function.
 
+
+=item xx64bin($data, [$seed])
+
+A shorter alias name for xxHash64bin function.
 
 
 =back
@@ -228,9 +242,9 @@ A shorter alias name for xxHash64bin function.
 
 To calculate digest of 3 separate strings as one concatenated string in OO style:
 
-    use Digest::xxHash64;
+    use Digest::xxH64;
 
-    $xx = Digest::xxHash64->new;
+    $xx = Digest::xxH64->new;
     $xx->add('foo', 'bar');
     $xx->add('baz');
     $xx = $xx->hexdigest;
@@ -243,14 +257,14 @@ we can handle input data of any size.
 
 This is useful when calculating checksum for files or network streams:
 
-    use Digest::xxHash64;
+    use Digest::xxH64;
 
     my $filename = __FILE__;
     open (my $FH, '<', $filename) or die "Can't open '$filename': $!";
     binmode($FH);
 
-    my $xx = Digest::xxHash64->new;
-    while (read($FH, $buffer, 4096)) {
+    my $xx = Digest::xxH64->new;
+    while (read($FH, $buffer, 65536)) {
         $xx->add($buffer);
     }
     close($FH);
@@ -258,34 +272,34 @@ This is useful when calculating checksum for files or network streams:
 
 Or we can use the addfile method for more efficient reading of the file:
 
-    use Digest::xxHash64;
+    use Digest::xxH64;
 
     my $filename = __FILE__;
     open (my $FH, '<', $filename) or die "Can't open '$filename': $!";
     binmode($FH);
-    my $xx = Digest::xxHash64->new;
+    my $xx = Digest::xxH64->new;
     $xx->addfile($FH);
     close($FH);
     print $xx->hexdigest, '  ', $filename, "\n";
 
 To calculate digest based on a small portion of a large file use the followings strategy:
 (in this example, we calculate digest based on 64 bytes of the file starting at 123 byte postion.)
-    use Digest::xxHash64;
+    use Digest::xxH64;
 
     my $filename = __FILE__;
     open (my $FH, '<', $filename) or die "Can't open '$filename': $!";
     binmode($FH);
     seek($FH,0,123)
-    my $xx = Digest::xxHash64->new;
+    my $xx = Digest::xxH64->new;
     $xx->addfile($FH, 64);
     close($FH);
     print $xx->hexdigest, '  ', $filename, "\n";
 
 Calculating digests for two different strings:
 
-    use Digest::xxHash64;
+    use Digest::xxH64;
 
-    my $xx = Digest::xxHash64->new;
+    my $xx = Digest::xxH64->new;
 
     $xx->add($string1);
     print $xx->hexdigest, ' for ', $tring1, "\n";
@@ -304,10 +318,10 @@ The argument must be between 0 and 2^64-1
 In this example two different digests are calculated to the same string by providing different seed values.
 Note: unspecified seed value means to use 0 as seed value.
 
-    use Digest::xxHash64;
+    use Digest::xxH64;
 
     my $seed1 = 12345;
-    my $xx = Digest::xxHash64->new($seed1);
+    my $xx = Digest::xxH64->new($seed1);
 
     $xx->add($string1);
     print $xx->hexdigest, ' for ', $tring1, "\n";
@@ -323,7 +337,7 @@ To calculate digest of a string in functional style:
 
 This example calculates the digest and displays it in hexadecimal form:
 
-    use Digest::xxHash64 qw( xxHash64hex );
+    use Digest::xxH64 qw( xxHash64hex );
 
     my $data_string = "Hello world!";
     my $hash64_hex = xxHash64hex($data_string);
@@ -345,7 +359,7 @@ for xxHash64hex funcion. It means, 0 as default value was used as seed value.
 In the following exampe we specify a seed value, so the calculated digest value
 will be different than in previous example:
 
-    use Digest::xxHash64 qw( xxHash64hex );
+    use Digest::xxH64 qw( xxHash64hex );
 
     my $seed = 123456789;
     my $data_string = "Hello world!";
