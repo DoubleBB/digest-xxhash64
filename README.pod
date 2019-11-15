@@ -57,7 +57,7 @@ capable to run both on 32 bit and 64 bit Perl environment.
 =head1 OBJECT ORIENTED STYLE INTERFACE
 
 
-The object oriented interface of C<Digest::xxHash64> is described in this
+The object oriented interface of C<Digest::xxH64> is described in this
 section.  After a C<Digest::xxH64> object has been created, you will add
 data to it (once or several times) and finally ask for the digest in a suitable format.
 A single object can be used to calculate multiple digests.
@@ -71,7 +71,7 @@ The following methods are provided:
 
 =item $xx = Digest::xxH64->new( [$seed] )
 
-The constructor returns a new C<Digest::xxHash64> object which encapsulate
+The constructor returns a new C<Digest::xxH64> object which encapsulate
 the state of the xxHash 64 bit digest algorithm.
 
 If called as an instance method (i.e. $xx->new) a new object is created and returned in this case.
@@ -93,7 +93,7 @@ to alter the digest result predictably. If omitted zero is assumed.
 
 =item $xx->clone
 
-Create and return a copy of the $xx object as Digest::xxHash64 in its actual state.
+Create and return a copy of the $xx object as Digest::xxH64 in its actual state.
 It is useful when you do not want to destroy the digests state,
 but need an intermediate value of the
 digest, e.g. when calculating digests iteractively on a continuous data
@@ -149,7 +149,7 @@ It is useful when to store the digest into database field directly as a number.
 Under 32 bit Perl environment you have to use Math::Int64 module to handle this type of numbers.
 
 Note that the C<digest> operation is effectively a destructive,
-read-once operation. Once it has been performed, the C<Digest::xxHash64>
+read-once operation. Once it has been performed, the C<Digest::xxH64>
 object state is automatically finalized and need to call C<reset> method to be used to calculate another
 digest value for another data. Call $xx->clone->digest if you want to calculate the
 digest without resetting the digest state.
@@ -174,7 +174,7 @@ the most significant 8 bits  and the last byte/character contains the least sign
 
 =head1 FUNCTIONAL STYLE INTERFACE
 
-The following functions are provided by the C<Digest::xxHash64> module.
+The following functions are provided by the C<Digest::xxH64> module.
 None of these functions are exported by default.
 Error handling is provided by croak() in all method.
 
@@ -345,7 +345,7 @@ This example calculates the digest and displays it in hexadecimal form:
 
 If you prefer to type less use xx64hex function name isntead of xxHash64hex:
 
-    use Digest::xxHash64 qw( xx64hex );
+    use Digest::xxH64 qw( xx64hex );
 
     my $data_string = "Hello world!";
     my $hash64_hex = xx64hex($data_string);
