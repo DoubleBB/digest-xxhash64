@@ -13,10 +13,10 @@ license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
   version: '1.4'
-name: Digest-xxHash64
+name: Digest-xxH64
 provides:
-  Digest::xxHash64:
-    file: lib/Digest/xxHash64.pm
+  Digest::xxH64:
+    file: lib/Digest/xxH64.pm
     version: '1.03'
 requires:
   Exporter: '0'

@@ -1,6 +1,6 @@
 XXH64_state_t  *  T_PTROBJ
 
-Digest::xxHash64   T_PTROBJ
+Digest::xxH64   T_PTROBJ
 
 uint64_t        T_UINT64
 

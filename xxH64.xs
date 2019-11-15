@@ -56,9 +56,9 @@
 
 
 /* for OO interface */
-typedef XXH64_state_t * Digest__xxHash64;
+typedef XXH64_state_t * Digest__xxH64;
 
-MODULE = Digest::xxHash64  PACKAGE = Digest::xxHash64
+MODULE = Digest::xxH64  PACKAGE = Digest::xxH64
 
 BOOT:
     PERL_MATH_INT64_LOAD_OR_CROAK;
@@ -68,7 +68,7 @@ PROTOTYPES: ENABLE
  #
  # Object oriented style interface
  #
-Digest::xxHash64
+Digest::xxH64
 new (char * class, ...)
     PREINIT:
         uint64_t seed64_value = 0;
@@ -93,8 +93,8 @@ new (char * class, ...)
 
 
 
-Digest::xxHash64
-clone (Digest::xxHash64 xx)
+Digest::xxH64
+clone (Digest::xxH64 xx)
     CODE:
         RETVAL = XXH64_createState( );
         if (! RETVAL) {
@@ -109,14 +109,14 @@ clone (Digest::xxHash64 xx)
 
 void
 DESTROY (xx)
-        Digest::xxHash64 xx;
+        Digest::xxH64 xx;
     CODE:
         XXH64_freeState(xx);
 
 
 
 uint64_t
-reset ( Digest::xxHash64 xx, ... )
+reset ( Digest::xxH64 xx, ... )
     PREINIT:
         uint64_t seed64_value = 0;
     CODE:
@@ -135,7 +135,7 @@ reset ( Digest::xxHash64 xx, ... )
 
 
 uint64_t
-add ( Digest::xxHash64 xx, ... )
+add ( Digest::xxH64 xx, ... )
     PREINIT:
         STRLEN len = 0;
         const char *ptr;
@@ -169,7 +169,7 @@ add ( Digest::xxHash64 xx, ... )
 
 
 uint64_t
-digest (Digest::xxHash64 xx)
+digest (Digest::xxH64 xx)
     CODE:
         RETVAL = XXH64_digest(xx);
     OUTPUT:
@@ -178,7 +178,7 @@ digest (Digest::xxHash64 xx)
 
 
 void
-hexdigest (Digest::xxHash64 xx)
+hexdigest (Digest::xxH64 xx)
   PREINIT:
     char str_hash[17]; /* 16 hexa characters + terminating zero */
     const char digits[16] = "0123456789ABCDEF";
@@ -195,7 +195,7 @@ hexdigest (Digest::xxHash64 xx)
 
 
 void
-bindigest (Digest::xxHash64 xx)
+bindigest (Digest::xxH64 xx)
   PREINIT:
     char str_hash[9]; /* 8 bytes + terminating zero */
     int i;
@@ -211,7 +211,7 @@ bindigest (Digest::xxHash64 xx)
 
 
 uint64_t
-addfile(Digest::xxHash64 xx, PerlIO * fh, ...)
+addfile(Digest::xxH64 xx, PerlIO * fh, ...)
     PREINIT:
         uint64_t total_read = 0;
         uint64_t max_read = 0;
@@ -270,7 +270,8 @@ uint64_t
 get_xxHash64 ( ... )
     ALIAS:
         xx64 = 1
-        xxHash64 = 2
+        xxH64 = 2
+        xxHash64 = 3
 
     PREINIT:
         STRLEN len = 0;
@@ -310,7 +311,8 @@ void
 get_xxHash64hex ( ... )
     ALIAS:
         xx64hex = 1
-        xxHash64hex = 2
+        xxH64hex = 2
+        xxHash64hex = 3
 
     PREINIT:
         char str_hash[17]; /* 16 hexa characters + terminating zero */
@@ -361,7 +363,8 @@ void
 get_xxHash64bin ( ... )
     ALIAS:
         xx64bin = 1
-        xxHash64bin = 2
+        xxH64bin = 2
+        xxHash64bin = 3
 
     PREINIT:
         char str_hash[9]; /* 8 bytes + terminating zero */

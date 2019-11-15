@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use Test::More;
 use Math::Int64;
-use Digest::xxHash64  1.03 qw( xxHash64 xxHash64hex xxHash64bin xx64 xx64hex xx64 xx64bin);
+use Digest::xxH64  1.03 qw( xxHash64 xxHash64hex xxHash64bin xx64 xx64hex xx64bin xxH64 xxH64hex xxH64bin);
 
 # testing functional interface
 is xxHash64hex("abc"), '44BC2CF5AD770999', 'Check hexa digest output';
@@ -27,7 +27,7 @@ is uc(unpack('H*',xxHash64bin("abc", 0))), '44BC2CF5AD770999', 'Check hexa diges
 
 
 # testing OO interface
-my $xx = new_ok( 'Digest::xxHash64' );
+my $xx = new_ok( 'Digest::xxH64' );
 
 is $xx->add("abc"), 3, 'Short string data adding - 3 characters';
 is $xx->hexdigest(), '44BC2CF5AD770999', 'Check hexa digest output';
@@ -44,7 +44,7 @@ is $xx->hexdigest(), "D5000C4AC53D14A0", 'Check hexa digest output';
 is $xx->reset(), 0, "Reset internal state";
 is $xx->add("abc"), 3, "Short string of 3 characters added";
 my $xx2 = $xx->clone();
-isa_ok $xx2, 'Digest::xxHash64';
+isa_ok $xx2, 'Digest::xxH64';
 
 is $xx->add("defghijklmnopqrstuvwxyz0123456789"), 33, "Longer string added";
 is $xx->hexdigest(), "64F23ECF1609B766", 'Check hexa digest output';

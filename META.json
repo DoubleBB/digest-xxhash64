@@ -12,7 +12,7 @@
       "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
       "version" : "2"
    },
-   "name" : "Digest-xxHash64",
+   "name" : "Digest-xxH64",
    "prereqs" : {
       "build" : {
          "requires" : {
@@ -35,8 +35,8 @@
       }
    },
    "provides" : {
-      "Digest::xxHash64" : {
-         "file" : "lib/Digest/xxHash64.pm",
+      "Digest::xxH64" : {
+         "file" : "lib/Digest/xxH64.pm",
          "version" : "1.03"
       }
    },

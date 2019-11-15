@@ -3,7 +3,7 @@ use Module::Build;
 
 
 my $build = Module::Build->new(
-    module_name         => 'Digest::xxHash64',
+    module_name         => 'Digest::xxH64',
     license             => 'perl',
     dist_author         => 'Bela Bodecs <bodecsb@vivanet.hu>',
     dist_description    => 'Perl interface implementation to xxHash 64 bit algorithm',
@@ -32,7 +32,7 @@ my $build = Module::Build->new(
                        'ext/math_int64_c_api_client_054'  # https://metacpan.org/pod/Math::Int64#C-API
                       ],
     xs_files       => {
-                        './xxHash64.xs' => 'lib/Digest/xxHash64.xs'
+                        './xxH64.xs' => 'lib/Digest/xxH64.xs'
     },
     meta_merge     => {
         resources => {
