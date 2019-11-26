@@ -373,8 +373,8 @@ If you prefer to type less use xx64hex function name isntead of xxHash64hex:
 
 
 xxHash algorithm accepts a seed value to set initial state of digest
-calculation. This makes possible to produce uniquely different digest
-in a predictive way. In previously example we did not specify seed value
+calculation. This makes possible to produce uniquely different digests
+in a predictive way. In previous example we did not specify seed value
 for xxHash64hex funcion. It means, 0 as default value was used as seed value.
 In the following exampe we specify a seed value, so the calculated digest value
 will be different than in previous example:
@@ -386,6 +386,11 @@ will be different than in previous example:
     my $hash64_hex = xxHash64hex($data_string, $seed);
     print ("The new digest value is ", $hash64_hex, "\n");
 
+
+=head1 CONTACT
+
+For the latest version and reporting bugs or getting support please visit
+https://github.com/DoubleBB/digest-xxhash64
 
 
 =head1 COPYRIGHT
